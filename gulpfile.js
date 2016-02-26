@@ -16,12 +16,38 @@ gulp.task('default', function(){
 gulp.task('test', function (cb) {
   gulp.src('src/**/*.js')
 	.pipe(istanbul())
-	.pipe(istanbul.hookRequire())
+	.pipe(istanbul.hookRequire(
+
+    ))
 	.on('finish', function () {
 	  gulp.src('test/**/*.js')
 		.pipe(babel())
 		.pipe(injectModules())
 		.pipe(mocha())
+		.pipe(istanbul.writeReports())
+		.pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }))
+		.on('end', cb);
+	});
+});
+
+gulp.task('test:jenkins', function(cb) {
+   gulp.src('src/**/*.js')
+	.pipe(istanbul())
+	.pipe(istanbul.hookRequire(
+
+    ))
+	.on('finish', function () {
+	  gulp.src('test/**/*.js')
+		.pipe(babel())
+		.pipe(injectModules())
+		.pipe(mocha({
+            "reporter": "mocha-jenkins-reporter",
+            "reporterOptions": {
+                "junit_report_name": "Tests",
+                "junit_report_path": "tests.xml",
+                "junit_report_stack": 1
+            }
+        }))
 		.pipe(istanbul.writeReports())
 		.pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }))
 		.on('end', cb);

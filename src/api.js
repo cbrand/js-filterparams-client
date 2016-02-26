@@ -9,8 +9,8 @@ var Query = require('./query');
 
 var resolve = function(cl, ...args) {
     if (args.length == 0) {
-        throw 'A binding operation like "and" and "or" must ' +
-            'have at least one argument.';
+        throw new Error('A binding operation like "and" and "or" ' +
+            'must have at least one argument.');
     } else {
         let element = args[0];
         for(let i = 1; i < args.length; i++) {
@@ -29,7 +29,7 @@ var filterFor = function(filterName) {
 };
 
 
-module.exports = {
+var binding = {
     and: function(...args) {
         return resolve(And, ...args);
     },
@@ -46,6 +46,7 @@ module.exports = {
         return parameter;
     },
     filters: function(obj) {
+        obj = obj || {};
         let data = {};
         for(let key in obj) {
             data[key] = filterFor(obj[key]);
@@ -56,3 +57,5 @@ module.exports = {
         return new Query();
     }
 };
+
+module.exports = binding;
