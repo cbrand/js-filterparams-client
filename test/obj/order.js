@@ -43,6 +43,6 @@ describe('Order', function() {
             expect(order.toString()).to.eq('desc(name)');
         });
 
-    })
+    });
 
 });

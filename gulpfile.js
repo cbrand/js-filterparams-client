@@ -4,6 +4,7 @@ var babel = require('gulp-babel');
 var istanbul = require('gulp-babel-istanbul');
 var injectModules = require('gulp-inject-modules');
 var mocha = require('gulp-mocha');
+var eslint = require('gulp-eslint');
 
 
 // define tasks here
@@ -25,4 +26,16 @@ gulp.task('test', function (cb) {
 		.pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }))
 		.on('end', cb);
 	});
+});
+
+gulp.task('eslint', function() {
+	gulp.src(['src/**/*.js', 'test/**/*.js'])
+		.pipe(eslint())
+		.pipe(eslint.format());
+});
+
+gulp.task('eslint:jenkins', function() {
+	gulp.src(['src/**/*.js', 'test/**/*.js'])
+		.pipe(eslint())
+		.pipe(eslint.format('checkstyle'));
 });
