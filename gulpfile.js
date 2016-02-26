@@ -1,4 +1,5 @@
 require('babel-register');
+var fs = require('fs');
 var gulp = require('gulp');
 var babel = require('gulp-babel');
 var istanbul = require('gulp-babel-istanbul');
@@ -8,60 +9,64 @@ var eslint = require('gulp-eslint');
 
 
 // define tasks here
-gulp.task('default', function(){
-  // run tasks here
-  // set up watch handlers here
+gulp.task('default', function () {
+    // run tasks here
+    // set up watch handlers here
 });
 
 gulp.task('test', function (cb) {
-  gulp.src('src/**/*.js')
-	.pipe(istanbul())
-	.pipe(istanbul.hookRequire(
+    gulp.src('src/**/*.js')
+        .pipe(istanbul())
+        .pipe(istanbul.hookRequire(
 
-    ))
-	.on('finish', function () {
-	  gulp.src('test/**/*.js')
-		.pipe(babel())
-		.pipe(injectModules())
-		.pipe(mocha())
-		.pipe(istanbul.writeReports())
-		.pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }))
-		.on('end', cb);
-	});
+        ))
+        .on('finish', function () {
+            gulp.src('test/**/*.js')
+                .pipe(babel())
+                .pipe(injectModules())
+                .pipe(mocha())
+                .pipe(istanbul.writeReports())
+                .pipe(istanbul.enforceThresholds({thresholds: {global: 90}}))
+                .on('end', cb);
+        });
 });
 
-gulp.task('test:jenkins', function(cb) {
-   gulp.src('src/**/*.js')
-	.pipe(istanbul())
-	.pipe(istanbul.hookRequire(
+gulp.task('test:jenkins', function (cb) {
+    gulp.src('src/**/*.js')
+        .pipe(istanbul())
+        .pipe(istanbul.hookRequire(
 
-    ))
-	.on('finish', function () {
-	  gulp.src('test/**/*.js')
-		.pipe(babel())
-		.pipe(injectModules())
-		.pipe(mocha({
-            "reporter": "mocha-jenkins-reporter",
-            "reporterOptions": {
-                "junit_report_name": "Tests",
-                "junit_report_path": "tests.xml",
-                "junit_report_stack": 1
-            }
-        }))
-		.pipe(istanbul.writeReports())
-		.pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }))
-		.on('end', cb);
-	});
+        ))
+        .on('finish', function () {
+            gulp.src('test/**/*.js')
+                .pipe(babel())
+                .pipe(injectModules())
+                .pipe(mocha({
+                    "reporter": "mocha-jenkins-reporter",
+                    "reporterOptions": {
+                        "junit_report_name": "Tests",
+                        "junit_report_path": "tests.xml",
+                        "junit_report_stack": 1
+                    }
+                }))
+                .pipe(istanbul.writeReports({
+                    reporters: ['lcov', 'cobertura', 'json', 'text', 'text-summary']
+                }))
+                .pipe(istanbul.enforceThresholds({thresholds: {global: 90}}))
+                .on('end', cb);
+        });
 });
 
-gulp.task('eslint', function() {
-	gulp.src(['src/**/*.js', 'test/**/*.js'])
-		.pipe(eslint())
-		.pipe(eslint.format());
+gulp.task('eslint', function () {
+    gulp.src(['src/**/*.js', 'test/**/*.js'])
+        .pipe(eslint())
+        .pipe(eslint.format());
 });
 
-gulp.task('eslint:jenkins', function() {
-	gulp.src(['src/**/*.js', 'test/**/*.js'])
-		.pipe(eslint())
-		.pipe(eslint.format('checkstyle'));
+gulp.task('eslint:jenkins', function () {
+    gulp.src(['src/**/*.js', 'test/**/*.js'])
+        .pipe(eslint())
+        .pipe(eslint.format('checkstyle', fs.createWriteStream('checkstyle.xml')));
 });
+
+gulp.task('jenkins', ['eslint:jenkins', 'test:jenkins']);

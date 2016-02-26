@@ -48,3 +48,4 @@ bower_components
 ./build-tests/
 
 tests.xml
+checkstyle.xml
