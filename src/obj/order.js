@@ -4,7 +4,7 @@ class Order {
 
     constructor(name, desc) {
         this.name = name;
-        this.desc = desc;
+        this.desc = desc || false;
     }
 
     toString() {
