@@ -1,0 +1,31 @@
+{
+  "name": "filterparams-client",
+  "version": "1.0.0",
+  "description": "Client generating query parameters compatible with filterparams",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.5.2",
+    "babel-register": "^6.5.2",
+    "babelify": "^7.2.0",
+    "chai": "^3.5.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-babel-istanbul": "^0.12.0",
+    "gulp-eslint": "^2.0.0",
+    "gulp-inject-modules": "^0.1.0",
+    "gulp-istanbul": "^0.10.3",
+    "gulp-mocha": "^2.2.0",
+    "mocha": "^2.4.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cbrand/js-filterparams-client.git"
+  },
+  "author": "Christoph Brand <christoph@brand.rest>",
+  "license": "MIT"
+}
