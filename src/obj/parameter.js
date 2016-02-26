@@ -9,6 +9,19 @@ class Parameter {
         this.value = null;
     }
 
+    get key() {
+        var key = 'filter[param][' + this.name + ']';
+        if(this.filter) {
+            key += '[' + this.filter + ']';
+
+            if(this.alias) {
+                key += '[' + this.alias + ']';
+            }
+        }
+
+        return key;
+    }
+
 }
 
 module.exports = Parameter;
