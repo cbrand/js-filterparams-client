@@ -2,6 +2,7 @@
 
 var And = require('./obj/and');
 var Order = require('./obj/order');
+var serialize = require('./serializer');
 
 
 class Query {
@@ -40,6 +41,10 @@ class Query {
         var query = this.clone();
         query.orders.push(new Order(name, desc));
         return query;
+    }
+
+    generateParams() {
+        return serialize(this);
     }
 
 }

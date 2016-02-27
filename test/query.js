@@ -141,4 +141,38 @@ describe('Query', function() {
 
     });
 
+    describe('#generateParams', function() {
+        var parameter;
+        var params;
+
+        beforeEach(function() {
+            parameter = new Parameter('name');
+            parameter.filter = 'eq';
+            parameter.value = 'test';
+
+            query = query.order('name');
+            query = query.filter(parameter);
+            params = query.generateParams();
+        });
+
+        it('should create an object when generating parameters', function() {
+            expect(params).to.be.an.instanceOf(Object);
+        });
+
+        it('should include a binding configuration', function() {
+            expect(params['filter[binding]']).to.equal('name');
+        });
+
+        it('should include the filtered parameter', function() {
+            expect(params[parameter.key]).to.equal(parameter.value);
+        });
+
+        it('should include the order parameter', function() {
+            expect(params['filter[order]']).to.deep.equal([
+                'asc(name)'
+            ]);
+        });
+
+    });
+
 });
