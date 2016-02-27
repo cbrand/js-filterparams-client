@@ -1,6 +1,6 @@
 {
   "name": "filterparams",
-  "version": "1.0.0",
+  "version": "0.8.0",
   "description": "Client generating query parameters compatible with filterparams",
   "main": "lib/api.js",
   "dependencies": {},
@@ -24,7 +24,8 @@
     "gulp-mocha": "^2.2.0",
     "gulp-sourcemaps": "^1.6.0",
     "mocha": "^2.4.5",
-    "mocha-jenkins-reporter": "^0.2.0"
+    "mocha-jenkins-reporter": "^0.2.0",
+    "run-sequence": "^1.1.5"
   },
   "scripts": {
     "test": "gulp test",

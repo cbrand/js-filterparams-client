@@ -9,12 +9,13 @@ const eslint = require('gulp-eslint');
 const sourcemaps = require('gulp-sourcemaps');
 const browserify = require('gulp-browserify');
 const clean = require('gulp-clean');
+const runSequence = require('run-sequence');
 
 
 gulp.task('default', ['test']);
 
 gulp.task('test', function (cb) {
-    return gulp.src('src/**/*.js')
+    gulp.src('src/**/*.js')
         .pipe(istanbul())
         .pipe(istanbul.hookRequire(
 
@@ -31,7 +32,7 @@ gulp.task('test', function (cb) {
 });
 
 gulp.task('test:jenkins', function (cb) {
-    return gulp.src('src/**/*.js')
+    gulp.src('src/**/*.js')
         .pipe(istanbul())
         .pipe(istanbul.hookRequire(
 
@@ -72,7 +73,7 @@ gulp.task('jenkins', ['eslint:jenkins', 'test:jenkins']);
 
 gulp.task('clean', function() {
     gulp.src('lib', {read: false})
-		.pipe(clean({force: true}));
+		.pipe(clean());
 });
 
 gulp.task('compile:node', function () {
@@ -81,4 +82,6 @@ gulp.task('compile:node', function () {
         .pipe(gulp.dest('lib'));
 });
 
-gulp.task('build:node', ['clean', 'test', 'compile:node']);
+gulp.task('build:node', function(cb) {
+    runSequence('clean', 'test', 'compile:node', cb);
+});
