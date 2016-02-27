@@ -1,6 +1,6 @@
 {
   "name": "filterparams",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Client generating query parameters compatible with filterparams",
   "main": "lib/api.js",
   "dependencies": {},
