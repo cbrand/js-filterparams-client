@@ -49,3 +49,6 @@ bower_components
 
 tests.xml
 checkstyle.xml
+
+# Compilation
+/lib/

@@ -1,21 +1,20 @@
 require('babel-register');
-var fs = require('fs');
-var gulp = require('gulp');
-var babel = require('gulp-babel');
-var istanbul = require('gulp-babel-istanbul');
-var injectModules = require('gulp-inject-modules');
-var mocha = require('gulp-mocha');
-var eslint = require('gulp-eslint');
+const fs = require('fs');
+const gulp = require('gulp');
+const babel = require('gulp-babel');
+const istanbul = require('gulp-babel-istanbul');
+const injectModules = require('gulp-inject-modules');
+const mocha = require('gulp-mocha');
+const eslint = require('gulp-eslint');
+const sourcemaps = require('gulp-sourcemaps');
+const browserify = require('gulp-browserify');
+const clean = require('gulp-clean');
 
 
-// define tasks here
-gulp.task('default', function () {
-    // run tasks here
-    // set up watch handlers here
-});
+gulp.task('default', ['test']);
 
 gulp.task('test', function (cb) {
-    gulp.src('src/**/*.js')
+    return gulp.src('src/**/*.js')
         .pipe(istanbul())
         .pipe(istanbul.hookRequire(
 
@@ -32,7 +31,7 @@ gulp.task('test', function (cb) {
 });
 
 gulp.task('test:jenkins', function (cb) {
-    gulp.src('src/**/*.js')
+    return gulp.src('src/**/*.js')
         .pipe(istanbul())
         .pipe(istanbul.hookRequire(
 
@@ -58,15 +57,28 @@ gulp.task('test:jenkins', function (cb) {
 });
 
 gulp.task('eslint', function () {
-    gulp.src(['src/**/*.js', 'test/**/*.js'])
+    return gulp.src(['src/**/*.js', 'test/**/*.js'])
         .pipe(eslint())
         .pipe(eslint.format());
 });
 
 gulp.task('eslint:jenkins', function () {
-    gulp.src(['src/**/*.js', 'test/**/*.js'])
+    return gulp.src(['src/**/*.js', 'test/**/*.js'])
         .pipe(eslint())
         .pipe(eslint.format('checkstyle', fs.createWriteStream('checkstyle.xml')));
 });
 
 gulp.task('jenkins', ['eslint:jenkins', 'test:jenkins']);
+
+gulp.task('clean', function() {
+    gulp.src('lib', {read: false})
+		.pipe(clean({force: true}));
+});
+
+gulp.task('compile:node', function () {
+    return gulp.src('src/**/*.js')
+        .pipe(babel())
+        .pipe(gulp.dest('lib'));
+});
+
+gulp.task('build:node', ['clean', 'test', 'compile:node']);
