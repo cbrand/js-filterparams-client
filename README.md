@@ -157,7 +157,7 @@ SELECT * FROM users WHERE (firstName = 'john' and lastName = 'doe' and age > 25)
 
 you can do so with the following javascript code:
 
-```
+```javascript
 var params = require('filterparams');
 
 var query = params.query();
