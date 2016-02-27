@@ -34,7 +34,6 @@ describe('Api', function() {
 
         it('should create an empty object if no parameters are passed', function() {
             filters = api.filters();
-            expect(filters).to.deep.equal({});
         });
 
         describe('when calling a created filter function', function() {
@@ -60,6 +59,30 @@ describe('Api', function() {
                 expect(parameter.value).to.equal('user');
             });
 
+        });
+
+        describe('when calling a filter function through the parameter functionality', function() {
+            var parameter;
+
+            beforeEach(function() {
+                parameter = filters('name').equals('user');
+            });
+
+            it('should create a parameter', function() {
+                expect(parameter).to.be.an.instanceOf(Parameter);
+            });
+
+            it('should set the name of the parameter', function() {
+                expect(parameter.name).to.equal('name');
+            });
+
+            it('should set the filter of the parameter', function() {
+                expect(parameter.filter).to.equal('eq');
+            });
+
+            it('should set the value of the parameter', function() {
+                expect(parameter.value).to.equal('user');
+            });
         });
 
     });

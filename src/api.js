@@ -22,6 +22,14 @@ var resolve = function(cl, ...args) {
 };
 
 
+var namedFilterFor = function(name, filterName) {
+    var filterFunction = filterFor(filterName);
+    return function(value) {
+        return filterFunction(name, value);
+    }
+};
+
+
 var filterFor = function(filterName) {
     return function(name, value) {
         return binding.param(name, filterName, value);
@@ -47,7 +55,14 @@ var binding = {
     },
     filters: function(obj) {
         obj = obj || {};
-        let data = {};
+        let data = function(paramName) {
+            var innerObject = {};
+            for(let key in obj) {
+                innerObject[key] = namedFilterFor(paramName, obj[key]);
+            }
+            return innerObject;
+        };
+
         for(let key in obj) {
             data[key] = filterFor(obj[key]);
         }
