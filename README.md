@@ -71,28 +71,28 @@ The external API provides the following functions:
     </thead>
     <tbody>
         <tr>
-            <td>`#query()`</td>
+            <td>#query()</td>
             <td>Creates a new empty query object, which stores configuration data.</td>
         </tr>
         <tr>
-            <td>`#filters(object)`</td>
+            <td>#filters(object)</td>
             <td>Generates depending from the passed object filter functions, which can be invoked to
             generate filter parameters.</td>
         </tr>
         <tr>
-            <td>`#and(...data)`</td>
+            <td>#and(...data)</td>
             <td>Combines several parameters through an and expression.</td>
         </tr>
         <tr>
-            <td>`#or(...data)`</td>
+            <td>#or(...data)</td>
             <td>Combines several parameters through an or expression.</td>
         </tr>
         <tr>
-            <td>`#not(param)`</td>
+            <td>#not(param)</td>
             <td>Negates a parameter, an and expression or an OR expresion.</td>
         </tr>
         <tr>
-            <td>`#param(name, filter, value)`</td>
+            <td>#param(name, filter, value)</td>
             <td>Creates and parameter with the provided parameter name, the filter and the value.
             Usually the usage of this function is not recommened. Instead use the `#filters()` functionality
             to create custom functions for creating these parameters.</td>
