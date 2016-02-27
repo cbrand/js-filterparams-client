@@ -1,8 +1,7 @@
 {
-    "parserOptions": {
-        "ecmaVersion": 6,
-        "sourceType": "module",
-        "ecmaFeatures": {
-        }
-    }
+  "extends": "defaults/configurations/google",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  }
 }

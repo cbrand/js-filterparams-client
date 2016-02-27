@@ -7,7 +7,7 @@ var Or = require('./obj/or');
 var Not = require('./obj/not');
 
 
-var bracketize_if_necessary = function(value) {
+var parenthesizeIfNecessary = function(value) {
     if(/[!&\|]+/.test(value)) {
         value = '(' + value + ')';
     }
@@ -67,9 +67,9 @@ class Serializer {
                 binding = data.alias;
             }
         } else if(data instanceof _LeftRight) {
-            let left = bracketize_if_necessary(
+            let left = parenthesizeIfNecessary(
                 this._process(data.args[0]));
-            let right = bracketize_if_necessary(
+            let right = parenthesizeIfNecessary(
                 this._process(data.args[1]));
             let symbol = null;
 
@@ -83,7 +83,7 @@ class Serializer {
 
             binding = left + symbol + right;
         } else if(data instanceof Not) {
-            binding = '!' + bracketize_if_necessary(
+            binding = '!' + parenthesizeIfNecessary(
                     this._process(data.inner));
         } else if(data) {
             throw new Error('Unkown element ' + data);
