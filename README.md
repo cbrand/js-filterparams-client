@@ -189,3 +189,5 @@ in a server side application.
 
 - Go - [go-filterparams](https://github.com/cbrand/go-filterparams)
 - Python - [filterparams](https://github.com/cbrand/python-filterparams)
+- Ruby - [filterparams](https://github.com/cbrand/ruby-filterparams)
+
